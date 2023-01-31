@@ -4,7 +4,7 @@ exports.handler = async function(state:any) {
         phone:string,
         address:string,
     }
-    
+
     const obj: User = {
         name: state.name ? state.name : 'John',
         phone: state.phoneNumber ? state.phoneNumber : '+12058547412',

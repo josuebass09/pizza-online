@@ -43,12 +43,12 @@ export class TheStateMachineStack extends cdk.Stack {
     const cookPizza = new tasks.LambdaInvoke(this, 'Lets make your pizza', {
       lambdaFunction: cookPizzaLambda,
       payloadResponseOnly: true,
-      inputPath: '$',
+      inputPath: '$'
     });
 
     const deliverPizza = new tasks.LambdaInvoke(this, "Deliver Pizza", {
       lambdaFunction: deliverPizzaLambda,
-      inputPath: '$.flavour',
+      inputPath: '$.state',
       payloadResponseOnly: true
     })
 
@@ -114,11 +114,10 @@ export class TheStateMachineStack extends cdk.Stack {
       timeoutInMillis: 10000,
     });
 
-    
-
-    new apigw.CfnRoute(this, 'POST Pizza', {
+    new apigw.CfnRoute(this, 'DefaultRoute', {
       apiId: api.httpApiId,
-      routeKey: 'POST /pizza',
+      routeKey: apigw.HttpRouteKey.DEFAULT.key,
+      target: `integrations/${integ.ref}`,
     });
 
     // output the URL of the HTTP API
